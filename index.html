@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Free Fire Top-Up</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0b0b0b;
+  color: white;
+  text-align: center;
+}
+
+.box {
+  background: #1b1b1b;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+button {
+  padding: 14px 25px;
+  margin: 6px;
+  border-radius: 25px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.pay { background: #ffb300; color: black; }
+.app { background: #333; color: white; }
+
+img {
+  width: 240px;
+  border-radius: 12px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>🔥 Free Fire Diamond Top-Up</h2>
+
+<div class="box">
+  <h3>Select Diamonds</h3>
+
+  <button class="pay" onclick="select(129)">520 💎 – ₹129</button>
+  <button class="pay" onclick="select(349)">1500 💎 – ₹349</button>
+  <button class="pay" onclick="select(649)">3000 💎 – ₹649</button>
+  <button class="pay" onclick="select(849)">4000 💎 – ₹849</button>
+  <button class="pay" onclick="select(1099)">5600 💎 – ₹1099</button>
+
+  <p id="price"></p>
+</div>
+
+<div class="box">
+  <h3>Scan & Pay</h3>
+  <img id="qr" src="">
+  <p><b>UPI:</b> shivanshdwivedi0120-1@okaxis</p>
+</div>
+
+<div class="box">
+  <h3>Pay using App</h3>
+  <button class="app" onclick="pay('gpay')">Google Pay</button>
+  <button class="app" onclick="pay('phonepe')">PhonePe</button>
+  <button class="app" onclick="pay('paytm')">Paytm</button>
+  <button class="app" onclick="pay('upi')">Any UPI</button>
+</div>
+
+<script>
+let amount = 0;
+const upi = "shivanshdwivedi0120-1@okaxis";
+
+function select(val) {
+  amount = val;
+  document.getElementById("price").innerText = "Amount: ₹" + val;
+
+  document.getElementById("qr").src =
+    "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
+    encodeURIComponent(`upi://pay?pa=${upi}&am=${val}&cu=INR`);
+}
+
+function pay(app) {
+  if (!amount) {
+    alert("Please select amount first");
+    return;
+  }
+
+  let link = "";
+
+  if (app === "gpay") link = `gpay://upi/pay?pa=${upi}&am=${amount}&cu=INR`;
+  else if (app === "phonepe") link = `phonepe://pay?pa=${upi}&am=${amount}&cu=INR`;
+  else if (app === "paytm") link = `paytmmp://pay?pa=${upi}&am=${amount}&cu=INR`;
+  else link = `upi://pay?pa=${upi}&am=${amount}&cu=INR`;
+
+  window.location.href = link;
+}
+</script>
+
+</body>
+</html>
