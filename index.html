@@ -4,101 +4,303 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Free Fire Top-Up</title>
+<title>Free Fire Diamond Top-Up</title>
 
 <style>
+:root {
+  --bg: #0b0b0b;
+  --card: #1b1b1b;
+  --text: #ffffff;
+  --accent: #ffb300;
+}
+
+.light {
+  --bg: #f5f5f5;
+  --card: #ffffff;
+  --text: #000000;
+}
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0b0b0b;
-  color: white;
+  font-family: "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+header {
+  padding: 40px 20px;
   text-align: center;
 }
 
-.box {
-  background: #1b1b1b;
+.toggle {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  padding: 10px 15px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  background: var(--card);
+}
+
+.section {
+  background: var(--card);
   margin: 20px;
-  padding: 20px;
+  padding: 25px;
+  border-radius: 16px;
+  text-align: center;
+}
+
+input {
+  width: 85%;
+  padding: 14px;
+  margin: 10px 0;
+  border-radius: 12px;
+  border: none;
+  font-size: 16px;
+  text-align: center;
+}
+
+.diamond-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.diamond {
+  background: linear-gradient(135deg, #222, #111);
+  padding: 15px;
+  border-radius: 12px;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.diamond:hover {
+  border-color: var(--accent);
+  transform: scale(1.05);
+}
+
+.qr-box img {
+  width: 230px;
   border-radius: 12px;
 }
 
 button {
-  padding: 14px 25px;
-  margin: 6px;
-  border-radius: 25px;
+  padding: 14px 30px;
+  border-radius: 30px;
   border: none;
-  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
+  background: var(--accent);
+  color: #000;
+  margin: 6px;
 }
 
-.pay { background: #ffb300; color: black; }
-.app { background: #333; color: white; }
+.warning {
+  color: #ffcc00;
+  font-size: 14px;
+}
 
-img {
-  width: 240px;
-  border-radius: 12px;
+table {
+  width: 100%;
+  color: white;
+  border-collapse: collapse;
+}
+
+th, td {
+  border-bottom: 1px solid #444;
+  padding: 8px;
+}
+
+footer {
+  text-align: center;
+  color: gray;
+  padding: 15px;
+  font-size: 13px;
 }
 </style>
 </head>
 
 <body>
 
-<h2>🔥 Free Fire Diamond Top-Up</h2>
+<button class="toggle" onclick="toggleTheme()">🌙 / ☀️</button>
 
-<div class="box">
-  <h3>Select Diamonds</h3>
+<header>
+  <h1>🔥 Free Fire Diamond Top-Up</h1>
+  <p>Fast • Secure • Manual Verification</p>
+</header>
 
-  <button class="pay" onclick="select(129)">520 💎 – ₹129</button>
-  <button class="pay" onclick="select(349)">1500 💎 – ₹349</button>
-  <button class="pay" onclick="select(649)">3000 💎 – ₹649</button>
-  <button class="pay" onclick="select(849)">4000 💎 – ₹849</button>
-  <button class="pay" onclick="select(1099)">5600 💎 – ₹1099</button>
-
-  <p id="price"></p>
+<!-- PLAYER -->
+<div class="section">
+  <h2>🎮 Player Details</h2>
+  <input type="text" id="uid" placeholder="Enter Player UID">
+  <p id="playerName" style="color:#00ffcc;font-weight:bold;"></p>
 </div>
 
-<div class="box">
-  <h3>Scan & Pay</h3>
-  <img id="qr" src="">
-  <p><b>UPI:</b> shivanshdwivedi0120-1@okaxis</p>
+<!-- DIAMONDS -->
+<div class="section">
+  <h2>💎 Select Diamonds</h2>
+
+  <div class="diamond-grid">
+    <div class="diamond" onclick="selectDiamond(520,129)">💎 520<br>₹129</div>
+    <div class="diamond" onclick="selectDiamond(1500,349)">💎 1500<br>₹349</div>
+    <div class="diamond" onclick="selectDiamond(3000,649)">💎 3000<br>₹649</div>
+    <div class="diamond" onclick="selectDiamond(4000,849)">💎 4000<br>₹849</div>
+    <div class="diamond" onclick="selectDiamond(5600,1099)">💎 5600<br>₹1099</div>
+    <div class="diamond" onclick="selectDiamond(12000,3599)">💎 12000<br>₹3599</div>
+  </div>
+
+  <p id="priceText">Select a diamond pack</p>
 </div>
 
-<div class="box">
-  <h3>Pay using App</h3>
-  <button class="app" onclick="pay('gpay')">Google Pay</button>
-  <button class="app" onclick="pay('phonepe')">PhonePe</button>
-  <button class="app" onclick="pay('paytm')">Paytm</button>
-  <button class="app" onclick="pay('upi')">Any UPI</button>
+<!-- PAYMENT -->
+<div class="section">
+  <h2>💳 Pay Using UPI</h2>
+
+  <div class="qr-box">
+    <img id="qrImage"
+      src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=upi://pay?pa=shivanshdwivedi0120-1@okaxis&pn=Shivansh&cu=INR">
+  </div>
+
+  <p class="warning">⚠️ QR payments support up to ₹2000 only.</p>
+
+  <button onclick="payUPI('gpay')">Google Pay</button>
+  <button onclick="payUPI('phonepe')">PhonePe</button>
+  <button onclick="payUPI('paytm')">Paytm</button>
+  <button onclick="payUPI('bhim')">BHIM</button>
+  <button onclick="payUPI('upi')">Any UPI</button>
 </div>
+
+<!-- SCREENSHOT -->
+<div class="section">
+  <h2>📸 Upload Payment Screenshot</h2>
+  <input type="file" accept="image/*" onchange="previewImage(event)">
+  <br><br>
+  <img id="preview" style="max-width:250px; display:none; border-radius:12px;">
+</div>
+
+<!-- ORDER -->
+<div class="section">
+  <h2>📦 Add Order</h2>
+  <button onclick="placeOrder()">Add Order</button>
+</div>
+
+<!-- ORDER LIST -->
+<div class="section">
+  <h2>📋 Orders</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>UID</th>
+        <th>Diamonds</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody id="orderList"></tbody>
+  </table>
+</div>
+
+<footer>
+  ⚠️ Payments are verified manually. No instant delivery.
+</footer>
 
 <script>
-let amount = 0;
-const upi = "shivanshdwivedi0120-1@okaxis";
+const UPI_ID = "shivanshdwivedi0120-1@okaxis";
 
-function select(val) {
-  amount = val;
-  document.getElementById("price").innerText = "Amount: ₹" + val;
-
-  document.getElementById("qr").src =
-    "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
-    encodeURIComponent(`upi://pay?pa=${upi}&am=${val}&cu=INR`);
+function toggleTheme() {
+  document.body.classList.toggle("light");
 }
 
-function pay(app) {
-  if (!amount) {
-    alert("Please select amount first");
+document.getElementById("uid").addEventListener("input", function () {
+  if (this.value.length >= 6) {
+    document.getElementById("playerName").innerHTML =
+      "🎮 Player_" + this.value.slice(-4);
+  } else {
+    document.getElementById("playerName").innerHTML = "";
+  }
+});
+
+function selectDiamond(diamond, price) {
+  window.selectedDiamond = diamond;
+  window.selectedPrice = price;
+
+  document.getElementById("priceText").innerHTML =
+    `💎 ${diamond} Diamonds — ₹${price}`;
+
+  const upi = `upi://pay?pa=${UPI_ID}&pn=Shivansh&am=${price}&cu=INR`;
+  document.getElementById("qrImage").src =
+    "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
+    encodeURIComponent(upi);
+}
+
+function previewImage(e) {
+  const img = document.getElementById("preview");
+  img.src = URL.createObjectURL(e.target.files[0]);
+  img.style.display = "block";
+}
+
+function generateOrderID() {
+  return "FF" + Math.floor(100000 + Math.random() * 900000);
+}
+
+function placeOrder() {
+  const uid = document.getElementById("uid").value;
+  if (!uid || !window.selectedDiamond) {
+    alert("Please enter UID and select diamonds");
     return;
   }
 
-  let link = "";
+  const order = {
+    id: generateOrderID(),
+    uid: uid,
+    diamonds: window.selectedDiamond,
+    price: window.selectedPrice
+  };
 
-  if (app === "gpay") link = `gpay://upi/pay?pa=${upi}&am=${amount}&cu=INR`;
-  else if (app === "phonepe") link = `phonepe://pay?pa=${upi}&am=${amount}&cu=INR`;
-  else if (app === "paytm") link = `paytmmp://pay?pa=${upi}&am=${amount}&cu=INR`;
-  else link = `upi://pay?pa=${upi}&am=${amount}&cu=INR`;
+  const orders = JSON.parse(localStorage.getItem("orders") || "[]");
+  orders.push(order);
+  localStorage.setItem("orders", JSON.stringify(orders));
 
-  window.location.href = link;
+  renderOrders();
+  alert("Order Added Successfully!");
 }
+
+function renderOrders() {
+  const orders = JSON.parse(localStorage.getItem("orders") || "[]");
+  const table = document.getElementById("orderList");
+  table.innerHTML = "";
+
+  orders.forEach(o => {
+    table.innerHTML += `
+      <tr>
+        <td>${o.id}</td>
+        <td>${o.uid}</td>
+        <td>${o.diamonds}</td>
+        <td>₹${o.price}</td>
+      </tr>`;
+  });
+}
+
+function payUPI(app) {
+  if (!window.selectedPrice) {
+    alert("Select diamond pack first");
+    return;
+  }
+
+  let url = "";
+  const amount = window.selectedPrice;
+
+  if (app === "gpay") url = `gpay://upi/pay?pa=${UPI_ID}&am=${amount}&cu=INR`;
+  else if (app === "phonepe") url = `phonepe://pay?pa=${UPI_ID}&am=${amount}&cu=INR`;
+  else if (app === "paytm") url = `paytmmp://pay?pa=${UPI_ID}&am=${amount}&cu=INR`;
+  else if (app === "bhim") url = `bhim://pay?pa=${UPI_ID}&am=${amount}&cu=INR`;
+  else url = `upi://pay?pa=${UPI_ID}&am=${amount}&cu=INR`;
+
+  window.location.href = url;
+}
+
+renderOrders();
 </script>
 
 </body>
